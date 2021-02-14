@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h4>Create a todo</h4>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="sumbit">Sumbit</button>
+
+
+
+</form>
+
+
+{% endblock %}
