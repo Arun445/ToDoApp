@@ -26,7 +26,9 @@ def todo_detail(request, id):
 def create_todo_form(request):
     form = TodoForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        text = (form.cleaned_data['text'])
+        t = ToDoApp(text=text, date=timezone.now())
+        t.save()
         return redirect('/')
     context = {
         'form':form
@@ -45,6 +47,14 @@ def update(request, id):
         'form':form
     }
     return render(request, "main/update.html", context)
+
+def delete(request, id):
+    todo = ToDoApp.objects.get(id=id)
+    todo.delete()
+    return redirect("/")
+
+
+
 '''
 def create_todo(request):
     content = (request.POST.get('content', False))

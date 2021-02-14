@@ -8,3 +8,11 @@ class ToDoApp(models.Model):
 
     def __str__(self):
         return self.text
+
+class ToDos(models.Model):
+    todolist = models.ForeignKey(ToDoApp, on_delete=models.CASCADE)
+    todo = models.CharField(max_length=300)
+    complete = models.BooleanField()
+
+    def __str__(self):
+        return self.todo
