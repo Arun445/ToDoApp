@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<p>Dont have an account? <a href="/accounts/sign_up/">Sign up</a></p>
+
+{% if not user.is_authenticated %}
+<p>Have an account? <a href="/accounts/login/">Login</a></p>
+{% endif %}
+
+
+{% if user.is_authenticated %}
+Go to <a href="/create/">TodoApp</a>
+{% endif %}
+
+{% endblock %}
