@@ -1,12 +1,13 @@
 {% extends 'main/base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
 <form method="post">
     {% csrf_token %}
-    {{form.as_p}}
-    <a href="/accounts/sign_up/">Sign up</a><br>
-    <input type="submit" value="Login">
+    {{form|crispy}}<br>
+    <input type="submit" class="btn btn-primary" value="Login">
 </form>
 
 {% endblock %}

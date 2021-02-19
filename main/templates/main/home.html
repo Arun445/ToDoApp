@@ -3,19 +3,36 @@
 {% block content %}
 
 
-Welcome {{ user }}
 
 
 
-<ul>
 
+
+    <div class="row">
         {% for all in all_todos %}
-        <li>{{ all.todo }} and the id is {{ all.id }} if you want you can
-        <a href="{{ all.id }}/update">update a to do</a>
-        <a href="{{ all.id }}/delete">delete a to do</a>
-        </li>
-        {% endfor %}
+            <div class="col-9 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">{{ all.todo }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col mt-4">
+                <a class="card-link" href="{{ all.id }}/completed"><button type="submit" class="btn btn-success">Complete</button></a>
+            </div>
+            <div class="col mt-4">
+                <a class="card-link" href="{{ all.id }}/update"><button type="submit" class="btn btn-primary">Update</button></a>
+            </div>
+            <div class="col mt-4">
+                <form action="{{ all.id }}/delete/" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                </form>
 
-</ul>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}
+
+

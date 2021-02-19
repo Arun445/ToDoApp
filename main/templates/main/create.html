@@ -1,11 +1,13 @@
 {% extends 'main/base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 <h4>Create a todo</h4>
 <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="sumbit">Sumbit</button>
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary"> Sumbit </button>
 
 
 

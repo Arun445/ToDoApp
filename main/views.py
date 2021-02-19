@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .models import ToDoApp, ToDos
 from django.utils import timezone
 from .forms import TodoForm
@@ -12,13 +12,25 @@ from django.contrib.auth.decorators import login_required
 
 #---------------register stuff-------
 
+@login_required
+def base(request):
+    account_name = request.user.username
+    users = ToDoApp.objects.get(text=account_name)
+    user_id = users.id
+    context ={
+        'user_id':user_id
+    }
+    return render(request, 'main/base.html', context)
+
+@login_required
 def main(request):
     return render(request, 'main/main.html')
 
-
+@login_required
 def home(request, id):
     name = request.user.username
     user = ToDoApp.objects.get(pk=id)
+    user_id = ToDoApp.objects.get(text=name).id
 
     if name == user.text:
 
@@ -26,7 +38,8 @@ def home(request, id):
 
         context = {
             'all_todos': all_todos,
-            'user': user,
+            'users': user,
+            'user_id':user_id,
         }
     else:
         return redirect('/accounts/sign_up/')
@@ -60,7 +73,7 @@ def sign_up(request):
 #def base(request):
 #    return render(request, "main/base.html",)
 
-
+@login_required
 def todo_list(request, id):
     user = ToDoApp.objects.get(id=id)
     all_todos = user.todos_set.all()
@@ -70,7 +83,7 @@ def todo_list(request, id):
     }
     return render(request, 'main/list.html', context)
 
-
+@login_required
 def todo_detail(request, id):
     get_todos = ToDoApp.objects.get(id=id)
 
@@ -79,25 +92,28 @@ def todo_detail(request, id):
     }
     return render(request, 'main/detail.html', context)
 
-
+@login_required
 def create_todo_form(request):
     form = TodoForm(request.POST or None)
+    name = request.user.username
+    idi = ToDoApp.objects.get(text=name)
+    user_id = idi.id
     if form.is_valid():
         tod = (form.cleaned_data['todo'])
-        name = request.user.username
-        idi = ToDoApp.objects.get(text=name)
-        idis = idi.id
-        q = ToDoApp.objects.get(pk=idis)
+        #name = request.user.username
+        #idi = ToDoApp.objects.get(text=name)
+        #user_id = idi.id
+        q = ToDoApp.objects.get(pk=user_id)
         q.todos_set.create(todo=tod)
-
-        return redirect('/home/%i' %idis )
+        return redirect('/home/%i' %user_id)
     context = {
-        'form':form
+        'form':form,
+        'user_id': user_id,
 
     }
     return render(request, "main/create.html", context)
 
-
+@login_required
 def update(request, id):
     name = request.user.username
     user = ToDoApp.objects.get(text=name)
@@ -113,15 +129,14 @@ def update(request, id):
     }
     return render(request, "main/update.html", context)
 
-
+@login_required
 def delete(request, id):
     name = request.user.username
     user = ToDoApp.objects.get(text=name)
     user_id = user.id
     get_todos = user.todos_set.get(id=id)
     get_todos.delete()
-    #todo = ToDoApp.objects.get(id=id)
-    #todo.delete()
+
     return redirect("/home/%i" %user_id )
 
 
