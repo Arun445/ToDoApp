@@ -12,7 +12,7 @@ urlpatterns = [
     path('create/', views.create_todo_form, name='create'),
     path('home/<int:id>/update/', views.update, name='update'),
     path('home/<int:id>/delete/', views.delete, name='delete'),
-  #  path('home/<int:id>/completed/', views.completed, name='completed'),
+    path('home/<int:id>/completed/', views.completed, name='completed'),
     path('accounts/sign_up/', views.sign_up, name="sign-up"),
 
 ]

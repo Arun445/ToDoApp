@@ -34,7 +34,7 @@ def home(request, id):
 
     if name == user.text:
 
-        all_todos = user.todos_set.all()
+        all_todos = user.todos_set.filter(todo_completed=False)
 
         context = {
             'all_todos': all_todos,
@@ -104,7 +104,7 @@ def create_todo_form(request):
         #idi = ToDoApp.objects.get(text=name)
         #user_id = idi.id
         q = ToDoApp.objects.get(pk=user_id)
-        q.todos_set.create(todo=tod)
+        q.todos_set.create(todo=tod, todo_completed=False)
         return redirect('/home/%i' %user_id)
     context = {
         'form':form,
@@ -139,6 +139,21 @@ def delete(request, id):
 
     return redirect("/home/%i" %user_id )
 
+def completed(request, id):
+    logged_users_name = request.user.username
+    logged_user = ToDoApp.objects.get(text=logged_users_name)
+    if request.method == 'POST':
+        logged_users_id = logged_user.id
+        logged_users_todo = logged_user.todos_set.get(id=id)
+        logged_users_todo.todo_completed = True
+        logged_users_todo.save()
+        return redirect("/home/%i" %logged_users_id )
+    completed_todos = logged_user.todos_set.filter(todo_completed=True)
+    context = {
+        'completed_todos': completed_todos
+
+    }
+    return render(request, 'main/completed.html', context)
 
 
 '''

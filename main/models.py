@@ -12,6 +12,7 @@ class ToDoApp(models.Model):
 class ToDos(models.Model):
     todolist = models.ForeignKey(ToDoApp, on_delete=models.CASCADE)
     todo = models.CharField(max_length=300)
+    todo_completed = models.BooleanField(null=True)
 
     def __str__(self):
         return self.todo
