@@ -5,7 +5,6 @@ app_name = 'main'
 
 urlpatterns = [
     path('', views.base, name='base'),
-    path('main/', views.main , name='main'),
     path('home/<int:id>', views.home, name='home'),
     path('create/', views.create_todo_form, name='create'),
     path('home/<int:id>/update/', views.update, name='update'),

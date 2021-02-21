@@ -21,9 +21,6 @@ def base(request):
     }
     return render(request, 'main/base.html', context)
 
-@login_required
-def main(request):
-    return render(request, 'main/main.html')
 
 @login_required
 def home(request, id):
