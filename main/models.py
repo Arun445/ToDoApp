@@ -7,7 +7,7 @@ class ToDoApp(models.Model):
 
 
     def __str__(self):
-        return self.text
+        return self.name
 
 class ToDos(models.Model):
     todolist = models.ForeignKey(ToDoApp, on_delete=models.CASCADE)

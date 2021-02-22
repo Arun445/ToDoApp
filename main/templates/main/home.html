@@ -2,7 +2,11 @@
 
 {% block content %}
 
-
+<div class="container">
+    {% if first_todo == 'None' %}
+        <h3>You don't have any todos, press <a href="/create/">create</a></h3>
+    {% endif %}
+</div>
 
 
 

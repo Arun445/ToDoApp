@@ -2,6 +2,13 @@
 
 {% block content %}
 
+<div class="container">
+{% if first_todo == 'None' %}
+<h3>You haven't completed any todos yet</h3>
+{% endif %}
+</div>
+
+
 <div class="row">
     {% for all in completed_todos %}
         <div class="col-3 mt-4">

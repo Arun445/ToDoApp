@@ -31,11 +31,17 @@ def home(request, id):
     if logged_users_name == logged_user.name:
 
         not_completed_todos = logged_user.todos_set.filter(todo_completed=False)
+        try:
+            first_todo = not_completed_todos[0]
+        except:
+            first_todo = 'None'
+
 
         context = {
             'all_todos': not_completed_todos,
             'users': logged_user,
             'user_id':logged_user_id,
+            'first_todo': first_todo,
         }
     else:
         return redirect('/accounts/sign_up/')
@@ -112,12 +118,15 @@ def completed(request, id):
         logged_users_todo.todo_completed = True
         logged_users_todo.save()
         return redirect("/home/%i" %logged_users_id )
-
     completed_todos = logged_user.todos_set.filter(todo_completed=True)
+    try:
+        first_todo = completed_todos[0]
+    except:
+        first_todo = 'None'
     context = {
         'completed_todos': completed_todos,
         'user_id': logged_users_id,
-
+        'first_todo': first_todo,
     }
     return render(request, 'main/completed.html', context)
 
